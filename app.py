@@ -12,7 +12,6 @@ transactions = [
 app.route('/', methods=['GET'])
 def get_transactions():
     return render_template('transactions.html', transactions=transactions)
-
 # Create operation: Display add transaction form
 # Route to handle the creation of a new transaction
 @app.route("/add", methods=["GET", "POST"])
@@ -33,7 +32,6 @@ def add_transaction():
     
     # If the request method is GET, render the form template to display the add transaction form
     return render_template("form.html")
-
 # Update operation: Display edit transaction form
 # Route to handle the editing of an existing transaction
 @app.route("/edit/<int:transaction_id>", methods=["GET", "POST"])
@@ -62,7 +60,17 @@ def edit_transaction(transaction_id):
 
     # If the transaction with the specified ID is not found, handle this case (optional)
     return {"message": "Transaction not found"}, 404
-# Delete operation
+# Delete operation: Delete a transaction
+# Route to handle the deletion of an existing transaction
+@app.route("/delete/<int:transaction_id>")
+def delete_transaction(transaction_id):
+    # Find the transaction with the matching ID and remove it from the list
+    for transaction in transactions:
+        if transaction['id'] == transaction_id:
+            transactions.remove(transaction)  # Remove the transaction from the transactions list
+            break  # Exit the loop once the transaction is found and removed
 
+    # Redirect to the transactions list page after deleting the transaction
+    return redirect(url_for("get_transactions"))
 # Run the Flask app
     
