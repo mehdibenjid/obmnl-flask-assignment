@@ -93,6 +93,18 @@ def search_transactions():
     # If the request method is GET, render the search form template
     return render_template("search.html")
 
+# Count total balance operation: Calculate the total balance of transactions
+# Route to handle the total balance calculation
+@app.route("/total_balance")
+def total_balance():
+    # Initialize a variable to store the total balance
+    total = 0
+    # Iterate over the transactions list to calculate the total balance
+    for transaction in transactions:
+        total += transaction['amount']
+    # Render the total balance template and pass the total balance value
+    return f"Total Balance: {str(total)}"
+    # return render_template("transactions.html", transactions=transactions, total=total)
 # Run the Flask application
 if __name__ == "__main__":
     app.run(debug=True)
